@@ -38,7 +38,7 @@ const SideBarMenu: React.FC<SideBarMenuProps> = ({ menuItems, onSelect }) => {
 
   return (
     <VStack spacing={1} align="start" bg="purple.500" color="white" h="full">
-      <Heading size="md" py="2" px="4">
+      <Heading size={{ md: "sm", lg: "md" }} py="2" px="4">
         Store Master
       </Heading>
       {menuItems.map((menuItem) => (
