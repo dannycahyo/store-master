@@ -1,4 +1,9 @@
-import { Grid, GridItem, Container as ChakraContainer } from "@chakra-ui/react";
+import {
+  Grid,
+  GridItem,
+  Container as ChakraContainer,
+  useMediaQuery,
+} from "@chakra-ui/react";
 
 import type React from "react";
 
@@ -8,16 +13,15 @@ type ContainerProps = {
 };
 
 const Container: React.FC<ContainerProps> = ({ sidebar, children }) => {
+  const [isBelowTabletSize] = useMediaQuery("(max-width: 768px)");
+
   return (
     <>
       {sidebar !== undefined ? (
         <Grid minH="100vh" templateColumns="repeat(5, 1fr)" gap={4}>
-          <GridItem
-            colSpan={{ base: 0, md: 1 }}
-            display={{ base: "none", md: "block" }}
-          >
-            {sidebar}
-          </GridItem>
+          {isBelowTabletSize ? null : (
+            <GridItem colSpan={1}>{sidebar}</GridItem>
+          )}
           <GridItem colSpan={{ base: 5, md: 4 }}>{children}</GridItem>
         </Grid>
       ) : (
