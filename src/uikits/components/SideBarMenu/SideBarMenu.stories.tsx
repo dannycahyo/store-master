@@ -2,7 +2,10 @@ import { Meta, StoryFn } from "@storybook/react";
 import { Box } from "@chakra-ui/react";
 import { action } from "@storybook/addon-actions";
 import { useArgs } from "@storybook/client-api";
+import { within } from "@storybook/testing-library";
+import { expect } from "@storybook/jest";
 
+import { menuItemsDummy } from "@src/constants";
 import { SideBarMenu } from "./SideBarMenu";
 
 export default {
@@ -28,5 +31,23 @@ const Template: StoryFn<typeof SideBarMenu> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  menuItems: ["Menu 1", "Menu 2", "Menu 3"],
+  menuItems: menuItemsDummy,
+};
+
+Default.play = async ({ canvasElement, step }) => {
+  const canvas = within(canvasElement);
+
+  menuItemsDummy.forEach((menuItem) => {
+    const menuItemText = canvas.getByText(menuItem);
+    expect(menuItemText).toBeInTheDocument();
+  });
+
+  for (const menuItem of menuItemsDummy) {
+    await step(`user click the ${menuItem} menu item`, async () => {
+      const menuItemText = canvas.getByText(menuItem);
+      menuItemText.click();
+
+      expect(menuItemText).toHaveStyle("font-weight: 400");
+    });
+  }
 };

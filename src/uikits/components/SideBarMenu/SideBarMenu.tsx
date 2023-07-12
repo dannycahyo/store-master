@@ -18,6 +18,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ children, isActive, onClick }) => (
     bg={isActive ? "blue.200" : "transparent"}
     _hover={{ bg: "blue.200" }}
     w="full"
+    role="menuitem"
     onClick={onClick}
   >
     <Text fontWeight={isActive ? "bold" : "normal"}>{children}</Text>
@@ -37,7 +38,14 @@ const SideBarMenu: React.FC<SideBarMenuProps> = ({ menuItems, onSelect }) => {
   };
 
   return (
-    <VStack spacing={1} align="start" bg="purple.500" color="white" h="full">
+    <VStack
+      spacing={1}
+      align="start"
+      bg="purple.500"
+      color="white"
+      h="full"
+      role="menu"
+    >
       <Heading size={{ md: "sm", lg: "md" }} py="2" px="4">
         Store Master
       </Heading>
