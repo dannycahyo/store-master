@@ -1,5 +1,5 @@
 import { Meta, StoryFn } from "@storybook/react";
-import { Box } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 
 import { Container } from "./Container";
 import { SideBarMenu } from "../SideBarMenu";
@@ -11,8 +11,8 @@ export default {
 
 const Template: StoryFn<typeof Container> = (args) => <Container {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const ContainerWithSideBar = Template.bind({});
+ContainerWithSideBar.args = {
   sidebar: (
     <SideBarMenu
       menuItems={["Menu 1", "Menu 2", "Menu 3"]}
@@ -20,4 +20,9 @@ Default.args = {
     />
   ),
   children: <Box bg="purple.100" h="full" />,
+};
+
+export const ContainerWithoutSideBar = Template.bind({});
+ContainerWithoutSideBar.args = {
+  children: <Box h="full" w="full" bg="purple.100" />,
 };
