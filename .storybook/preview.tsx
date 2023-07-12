@@ -1,8 +1,11 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
+import { initialize, mswDecorator } from "msw-storybook-addon";
 
 import type { Preview } from "@storybook/react";
+
+initialize();
 
 const preview: Preview = {
   parameters: {
@@ -25,6 +28,7 @@ const preview: Preview = {
         </QueryClientProvider>
       );
     },
+    mswDecorator,
   ],
 };
 

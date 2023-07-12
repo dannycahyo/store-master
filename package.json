@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test-storybook": "test-storybook"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
@@ -26,16 +27,20 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
-    "typescript": "5.1.6"
+    "typescript": "^4.9.5"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^7.0.26",
+    "@storybook/addon-coverage": "^0.0.8",
     "@storybook/addon-essentials": "^7.0.26",
     "@storybook/addon-interactions": "^7.0.26",
     "@storybook/addon-links": "^7.0.26",
+    "@storybook/addon-viewport": "^7.0.26",
     "@storybook/blocks": "^7.0.26",
+    "@storybook/jest": "^0.1.0",
     "@storybook/nextjs": "^7.0.26",
     "@storybook/react": "^7.0.26",
+    "@storybook/test-runner": "^0.11.0",
     "@storybook/testing-library": "^0.0.14-next.2",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
@@ -46,7 +51,12 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^5.0.0-canary-7118f5dd7-20230705",
     "eslint-plugin-storybook": "^0.6.12",
+    "msw": "^1.2.1",
+    "msw-storybook-addon": "^1.8.0",
     "prettier": "^3.0.0",
     "storybook": "^7.0.26"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
