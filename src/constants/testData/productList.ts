@@ -1,4 +1,4 @@
-import type { Product } from "@src/models";
+import type { Product } from "@src/products/model";
 
 const productList: Product[] = [
   {

@@ -1,4 +1,4 @@
-import type { Cart } from "@src/models";
+import type { Cart } from "@src/carts/model";
 
 const cartDetail: Cart = {
   id: 1,

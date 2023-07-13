@@ -9,7 +9,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-import type { CartProduct } from "@src/models";
+import type { CartProduct } from "@src/carts/model";
 import type React from "react";
 
 type CartProductTableProps = {

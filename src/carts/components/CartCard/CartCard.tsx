@@ -1,7 +1,7 @@
 import { Flex, HStack, Text, VStack } from "@chakra-ui/react";
 
 import type React from "react";
-import type { Cart } from "@src/models/Cart";
+import type { Cart } from "@src/carts/model";
 
 type CartProps = {
   cartDetail: Cart;
