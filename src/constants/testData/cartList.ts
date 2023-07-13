@@ -1,4 +1,4 @@
-import type { Cart } from "@src/models/Cart";
+import type { Cart } from "@src/models";
 
 const cartList: Cart[] = [
   {
