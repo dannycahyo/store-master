@@ -31,13 +31,13 @@ const ProductTable: React.FC<ProductTableProps> = ({ products }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {products.map((product) => (
-            <Tr key={product.id}>
-              <Td>{product.title}</Td>
-              <Td>{product.brand}</Td>
-              <Td isNumeric>{product.price}</Td>
-              <Td isNumeric>{product.stock}</Td>
-              <Td>{product.category}</Td>
+          {products.map(({ id, title, brand, price, category, stock }) => (
+            <Tr key={id}>
+              <Td>{title}</Td>
+              <Td>{brand}</Td>
+              <Td isNumeric>{price}</Td>
+              <Td isNumeric>{stock}</Td>
+              <Td>{category}</Td>
             </Tr>
           ))}
         </Tbody>
