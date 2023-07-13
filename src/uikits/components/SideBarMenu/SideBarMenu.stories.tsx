@@ -2,7 +2,7 @@ import { Meta, StoryFn } from "@storybook/react";
 import { Box } from "@chakra-ui/react";
 import { action } from "@storybook/addon-actions";
 import { useArgs } from "@storybook/client-api";
-import { within } from "@storybook/testing-library";
+import { userEvent, waitFor, within } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
 
 import { menuItemsDummy } from "@src/constants";
@@ -44,10 +44,16 @@ Default.play = async ({ canvasElement, step }) => {
 
   for (const menuItem of menuItemsDummy) {
     await step(`user click the ${menuItem} menu item`, async () => {
-      const menuItemText = canvas.getByText(menuItem);
-      menuItemText.click();
+      const menuItemText = canvas.getByRole("menuitem", {
+        name: menuItem,
+      });
+      userEvent.click(menuItemText);
 
-      expect(menuItemText).toHaveStyle("font-weight: 400");
+      const activeMenuItemStyle = "font-weight: 400";
+
+      waitFor(() => {
+        expect(menuItemText).toHaveStyle(activeMenuItemStyle);
+      });
     });
   }
 };
