@@ -2,7 +2,7 @@ import { expect } from "@storybook/jest";
 import { Meta, StoryFn } from "@storybook/react";
 import { within } from "@storybook/testing-library";
 
-import { cartDetail } from "@src/constants/testData/cartDetail";
+import { cartDetail } from "@src/constants/testData";
 import { CartCard } from "./CartCard";
 
 export default {
