@@ -44,25 +44,21 @@ Default.play = async ({ canvasElement, step }) => {
     });
 
     await step(`user see the ${product.brand} brand`, async () => {
-      /*Notes: Since the product brand is not unique, we need to use queryAllByText instead of getByText,
-        otherwise it will throw an error. */
       const productBrand = canvas.queryAllByText(product.brand)[0];
       expect(productBrand).toBeInTheDocument();
     });
 
     await step(`user see the ${product.price} price`, async () => {
-      const productPrice = canvas.queryByText(product.price.toString());
+      const productPrice = canvas.queryAllByText(product.price.toString())[0];
       expect(productPrice).toBeInTheDocument();
     });
 
     await step(`user see the ${product.stock} stock`, async () => {
-      const productStock = canvas.getByText(product.stock.toString());
+      const productStock = canvas.queryAllByText(product.stock.toString())[0];
       expect(productStock).toBeInTheDocument();
     });
 
     await step(`user see the ${product.category} category`, async () => {
-      /*Notes: Since the product category is not unique, we need to use queryAllByText instead of getByText,
-        otherwise it will throw an error. */
       const productCategory = canvas.queryAllByText(product.category)[0];
       expect(productCategory).toBeInTheDocument();
     });
