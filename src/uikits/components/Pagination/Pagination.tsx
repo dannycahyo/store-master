@@ -44,6 +44,7 @@ const Pagination: React.FC<PaginationProps> = ({
       justify="center"
       py={2}
       gap={4}
+      role="navigation"
     >
       <Box>
         <IconButton
@@ -55,9 +56,11 @@ const Pagination: React.FC<PaginationProps> = ({
         />
       </Box>
 
-      <Box>
+      <Box role="list">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <Box
+            role="listitem"
+            aria-label={`Page ${page}`}
             key={page}
             display="inline-block"
             px={{ base: 2, md: 4 }}
@@ -80,6 +83,7 @@ const Pagination: React.FC<PaginationProps> = ({
           width={{ base: "100%", md: "auto" }}
           variant="outline"
           borderColor="gray.400"
+          aria-label="Page size selector"
         >
           <option value={10}>10</option>
           <option value={20}>20</option>
