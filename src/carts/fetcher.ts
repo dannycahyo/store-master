@@ -5,10 +5,17 @@ type CartRequestParams = {
   skip?: number;
 };
 
+type CartRespose = {
+  total: number;
+  carts: Cart[];
+  skip: number;
+  limit: number;
+};
+
 const getAllCarts = async ({
   limit,
   skip,
-}: CartRequestParams): Promise<Cart[]> => {
+}: CartRequestParams): Promise<CartRespose> => {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
 
   if (skip !== undefined) {
@@ -26,9 +33,8 @@ const getAllCarts = async ({
   }
 
   try {
-    const data = await response.json();
-    const carts: Cart[] = data.carts;
-    return carts;
+    const data: CartRespose = await response.json();
+    return data;
   } catch (error) {
     throw new Error(`JSON response was not ok cause ${error}`);
   }
@@ -51,5 +57,5 @@ const getCartDetail = async ({ cartId }: { cartId: string }): Promise<Cart> => {
   }
 };
 
-export type { CartRequestParams };
+export type { CartRequestParams, CartRespose };
 export { getAllCarts, getCartDetail };
