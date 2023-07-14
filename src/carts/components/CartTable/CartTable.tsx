@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Table,
   Thead,
@@ -7,6 +8,7 @@ import {
   Td,
   TableCaption,
   TableContainer,
+  Text,
 } from "@chakra-ui/react";
 
 import type { Cart } from "@src/carts/model";
@@ -28,6 +30,7 @@ const CartTable: React.FC<ProductTableProps> = ({ carts }) => {
             <Th isNumeric>Total Products</Th>
             <Th isNumeric>Total</Th>
             <Th isNumeric>Discounted Total</Th>
+            <Th>Action</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -46,6 +49,11 @@ const CartTable: React.FC<ProductTableProps> = ({ carts }) => {
                 <Td isNumeric>{totalProducts}</Td>
                 <Td isNumeric>{total}</Td>
                 <Td isNumeric>{discountedTotal}</Td>
+                <Td>
+                  <Link href={`/carts/${id}`}>
+                    <Text color="purple.400">View</Text>
+                  </Link>
+                </Td>
               </Tr>
             ),
           )}
