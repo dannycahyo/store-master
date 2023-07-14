@@ -9,11 +9,11 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-import type { Product } from "@src/products/model";
+import type { ProductMapped } from "@src/products/model";
 import type React from "react";
 
 type ProductTableProps = {
-  products: Product[];
+  products: ProductMapped[];
 };
 
 const ProductTable: React.FC<ProductTableProps> = ({ products }) => {

@@ -1,6 +1,6 @@
-import type { Product } from "@src/products/model";
+import type { ProductMapped } from "@src/products/model";
 
-const productList: Product[] = [
+const productList: ProductMapped[] = [
   {
     id: 1,
     title: "iPhone 9",
