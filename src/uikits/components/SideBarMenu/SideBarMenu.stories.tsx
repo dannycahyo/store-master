@@ -32,6 +32,7 @@ const Template: StoryFn<typeof SideBarMenu> = (args) => {
 export const Default = Template.bind({});
 Default.args = {
   menuItems: menuItemsDummy,
+  defaultActiveMenuItem: menuItemsDummy[0],
 };
 
 Default.play = async ({ canvasElement, step }) => {

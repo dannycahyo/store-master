@@ -27,11 +27,19 @@ const MenuItem: React.FC<MenuItemProps> = ({ children, isActive, onClick }) => (
 
 type SideBarMenuProps = {
   onSelect: (selectedItem: string) => void;
+  defaultActiveMenuItem: string;
   menuItems: string[];
 };
 
-const SideBarMenu: React.FC<SideBarMenuProps> = ({ menuItems, onSelect }) => {
-  const [selectedMenu, setSelectedMenu] = useState<string>("");
+const SideBarMenu: React.FC<SideBarMenuProps> = ({
+  menuItems,
+  onSelect,
+  defaultActiveMenuItem,
+}) => {
+  const [selectedMenu, setSelectedMenu] = useState<string>(
+    defaultActiveMenuItem,
+  );
+
   const handleMenuItemClick = (menuItem: string) => {
     setSelectedMenu(menuItem);
     onSelect(menuItem);
