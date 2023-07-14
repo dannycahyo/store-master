@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { limit = "0", skip = "0", select, brand } = req.query;
+  const { limit = "0", skip = "0", select, brand, pMax, pMin } = req.query;
 
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/products`);
 
@@ -19,12 +19,17 @@ export default async function handler(
     (product: Product) => product.brand === brand,
   );
 
-  const total = filteredProducts.length;
-
   let paginatedProducts =
     limit !== "0"
       ? filteredProducts.slice(Number(skip), Number(skip) + Number(limit))
       : filteredProducts.slice(Number(skip));
+
+  if (pMin && pMax) {
+    paginatedProducts = filteredProducts.filter(
+      (product: Product) =>
+        product.price >= Number(pMin) && product.price <= Number(pMax),
+    );
+  }
 
   if (select) {
     const defaultSelectedField = "id,";
@@ -41,7 +46,7 @@ export default async function handler(
 
   res.status(200).json({
     products: paginatedProducts,
-    total,
+    total: paginatedProducts.length,
     skip: Number(skip),
     limit: Number(limit),
   });
