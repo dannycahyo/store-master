@@ -30,10 +30,10 @@ Default.play = async ({ canvasElement, step }) => {
   expect(tableCaption).toBeInTheDocument();
 
   const tableHeaders = canvas.getAllByRole("columnheader");
-  expect(tableHeaders).toHaveLength(5);
+  expect(tableHeaders).toHaveLength(6);
 
   const tableData = canvas.getAllByRole("cell");
-  expect(tableData).toHaveLength(cartList.length * 5);
+  expect(tableData).toHaveLength(cartList.length * 6);
 
   for (const cart of cartList) {
     await step(`user see the ${cart.userId} user ID`, async () => {
