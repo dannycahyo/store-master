@@ -12,7 +12,6 @@ export default async function handler(
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/products`);
 
   url.searchParams.set("limit", "0");
-  if (select) url.searchParams.set("select", select as string);
 
   const response = await fetch(url);
   const data: ProductsResponse = await response.json();
@@ -22,10 +21,23 @@ export default async function handler(
 
   const total = filteredProducts.length;
 
-  const paginatedProducts =
+  let paginatedProducts =
     limit !== "0"
       ? filteredProducts.slice(Number(skip), Number(skip) + Number(limit))
       : filteredProducts.slice(Number(skip));
+
+  if (select) {
+    const defaultSelectedField = "id,";
+    const selectFields = ((defaultSelectedField + select) as string).split(",");
+    paginatedProducts = paginatedProducts.map((product: Product) => {
+      const selectedProductMap = new Map();
+      selectFields.forEach((field: string) => {
+        selectedProductMap.set(field, product[field as keyof Product]);
+      });
+      const selectedProduct = Object.fromEntries(selectedProductMap);
+      return selectedProduct as Product;
+    });
+  }
 
   res.status(200).json({
     products: paginatedProducts,
