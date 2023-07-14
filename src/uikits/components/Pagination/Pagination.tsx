@@ -1,4 +1,4 @@
-import { Box, Flex, Text, IconButton, Select, HStack } from "@chakra-ui/react";
+import { Box, Flex, Text, IconButton, Select } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 import type React from "react";
@@ -85,6 +85,7 @@ const Pagination: React.FC<PaginationProps> = ({
           borderColor="gray.400"
           aria-label="Page size selector"
         >
+          <option value={5}>5</option>
           <option value={10}>10</option>
           <option value={20}>20</option>
           <option value={50}>50</option>
