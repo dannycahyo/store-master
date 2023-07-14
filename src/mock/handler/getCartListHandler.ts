@@ -1,7 +1,8 @@
 import { rest } from "msw";
 
 import { cartList } from "@src/constants";
-import { CartRespose } from "@src/carts/fetcher";
+
+import type { CartRespose } from "@src/carts/fetcher";
 
 const successCartListHandler = [
   rest.get(`${process.env.NEXT_PUBLIC_API_URL}/carts`, (req, res, ctx) => {
