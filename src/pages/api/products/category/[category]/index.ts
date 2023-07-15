@@ -1,6 +1,11 @@
 import fetch from "node-fetch";
 
-import { applyPagination, applyPriceRange, applySelection } from "@src/utils";
+import {
+  applyPagination,
+  applyPriceRange,
+  applySearching,
+  applySelection,
+} from "@src/utils";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { Product, ProductsResponse } from "@src/products/model";
@@ -9,7 +14,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { limit = "0", skip = "0", select, category, pMax, pMin } = req.query;
+  const {
+    limit = "0",
+    skip = "0",
+    select,
+    category,
+    pMax,
+    pMin,
+    q,
+  } = req.query;
 
   const url = new URL(
     `${process.env.NEXT_PUBLIC_API_URL}/products/category/${category}`,
@@ -24,6 +37,10 @@ export default async function handler(
 
   if (pMin && pMax) {
     products = applyPriceRange(products, Number(pMin), Number(pMax));
+  }
+
+  if (q) {
+    products = applySearching(products, q as string);
   }
 
   if (select) {
