@@ -1,5 +1,7 @@
 import fetch from "node-fetch";
 
+import { applyPagination, applyPriceRange, applySelection } from "@src/utils";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { Product, ProductsResponse } from "@src/products/model";
 
@@ -18,34 +20,25 @@ export default async function handler(
   const response = await fetch(url);
   const data: ProductsResponse = await response.json();
 
-  let paginatedProducts =
-    limit !== "0"
-      ? data.products.slice(Number(skip), Number(skip) + Number(limit))
-      : data.products.slice(Number(skip));
+  let products = data.products;
 
   if (pMin && pMax) {
-    paginatedProducts = paginatedProducts.filter(
-      (product: Product) =>
-        product.price >= Number(pMin) && product.price <= Number(pMax),
-    );
+    products = applyPriceRange(products, Number(pMin), Number(pMax));
   }
 
   if (select) {
     const defaultSelectedField = "id,";
     const selectFields = ((defaultSelectedField + select) as string).split(",");
-    paginatedProducts = paginatedProducts.map((product: Product) => {
-      const selectedProductMap = new Map();
-      selectFields.forEach((field: string) => {
-        selectedProductMap.set(field, product[field as keyof Product]);
-      });
-      const selectedProduct = Object.fromEntries(selectedProductMap);
-      return selectedProduct as Product;
+    products = products.map((product: Product) => {
+      return applySelection(product, selectFields);
     });
   }
 
+  products = applyPagination(products, Number(skip), Number(limit));
+
   res.status(200).json({
-    products: paginatedProducts,
-    total: paginatedProducts.length,
+    products: products,
+    total: products.length,
     skip: Number(skip),
     limit: Number(limit),
   });
