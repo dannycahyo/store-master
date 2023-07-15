@@ -28,4 +28,28 @@ type ProductMapped = {
   category: string;
 };
 
-export type { Product, ProductsResponse, ProductMapped };
+type ProductResponseMapped = {
+  products: ProductMapped[];
+  total: number;
+  skip: number;
+  limit: number;
+};
+
+type ProductRequestParams = {
+  limit?: number;
+  skip?: number;
+  pMin?: number;
+  pMax?: number;
+  select?: string;
+  category?: string;
+  brand?: string;
+  q?: string;
+};
+
+export type {
+  Product,
+  ProductsResponse,
+  ProductMapped,
+  ProductRequestParams,
+  ProductResponseMapped,
+};
