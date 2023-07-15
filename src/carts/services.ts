@@ -2,8 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getAllCarts, getCartDetail } from "./fetcher";
 
-import type { CartRequestParams, CartRespose } from "./fetcher";
-import type { Cart } from "./model";
+import type { Cart, CartRequestParams, CartRespose } from "./model";
 import type { UseQueryOptions } from "@tanstack/react-query";
 
 function useGetCartDetail(

@@ -18,4 +18,16 @@ type Cart = {
   totalQuantity: number;
 };
 
-export type { Cart, CartProduct };
+type CartRequestParams = {
+  limit?: number;
+  skip?: number;
+};
+
+type CartRespose = {
+  total: number;
+  carts: Cart[];
+  skip: number;
+  limit: number;
+};
+
+export type { Cart, CartProduct, CartRequestParams, CartRespose };

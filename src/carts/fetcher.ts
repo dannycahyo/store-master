@@ -1,16 +1,4 @@
-import type { Cart } from "./model";
-
-type CartRequestParams = {
-  limit?: number;
-  skip?: number;
-};
-
-type CartRespose = {
-  total: number;
-  carts: Cart[];
-  skip: number;
-  limit: number;
-};
+import type { Cart, CartRequestParams, CartRespose } from "./model";
 
 const getAllCarts = async ({
   limit,
