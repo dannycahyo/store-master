@@ -45,11 +45,6 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
 
   const isNotValidPriceRange = priceRange.min >= priceRange.max;
 
-  const disabledButtonStyle = {
-    opacity: 0.5,
-    cursor: "not-allowed",
-  };
-
   return (
     <Stack direction={{ base: "column", md: "row" }} spacing="12px" w="full">
       <Box w={{ base: "full", md: "30%" }}>
@@ -57,6 +52,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
           <Text>Category</Text>
           <Select
             placeholder="Filter By Category"
+            aria-label="Categories Filter"
             onChange={(e) => {
               onCategoryChange(e.target.value);
             }}
@@ -74,6 +70,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
           <Text>Brand</Text>
           <Select
             placeholder="Filter By Brand"
+            aria-label="Brands Filter"
             onChange={(e) => {
               onBrandChange(e.target.value);
             }}
@@ -97,8 +94,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
                 opacity: 0.5,
                 cursor: "not-allowed",
               }}
-              sx={isNotValidPriceRange ? disabledButtonStyle : undefined}
-              disabled={isNotValidPriceRange}
+              isDisabled={isNotValidPriceRange}
               onClick={() => {
                 if (isNotValidPriceRange) {
                   return;
@@ -115,6 +111,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
               <Input
                 type="number"
                 placeholder="Min"
+                aria-label="Min Price"
                 onChange={(e) => {
                   setPriceRange((prev) => ({
                     ...prev,
@@ -128,6 +125,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
               <Input
                 type="number"
                 placeholder="Max"
+                aria-label="Max Price"
                 onChange={(e) => {
                   setPriceRange((prev) => ({
                     ...prev,
@@ -151,6 +149,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
           <Input
             type="text"
             placeholder="Search product"
+            aria-label="Search product"
             onChange={(e) => {
               onSearch(e.target.value);
             }}
