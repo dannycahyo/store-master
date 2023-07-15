@@ -34,13 +34,16 @@ export default async function handler(
   const data: ProductsResponse = await response.json();
 
   let products = data.products;
+  let totalProducts = products.length;
 
   if (pMin && pMax) {
     products = applyPriceRange(products, Number(pMin), Number(pMax));
+    totalProducts = products.length;
   }
 
   if (q) {
     products = applySearching(products, q as string);
+    totalProducts = products.length;
   }
 
   if (select) {
@@ -55,7 +58,7 @@ export default async function handler(
 
   res.status(200).json({
     products: products,
-    total: products.length,
+    total: totalProducts,
     skip: Number(skip),
     limit: Number(limit),
   });
