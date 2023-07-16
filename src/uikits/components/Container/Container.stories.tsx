@@ -18,6 +18,7 @@ export const ContainerWithSideBar = Template.bind({});
 ContainerWithSideBar.args = {
   sidebar: (
     <SideBarMenu
+      defaultActiveMenuItem={menuItemsDummy[0]}
       menuItems={menuItemsDummy}
       onSelect={(selectedItem: string) => console.log(selectedItem)}
     />
@@ -34,6 +35,7 @@ export const ContainerWithSideBarMobileView = Template.bind({});
 ContainerWithSideBarMobileView.args = {
   sidebar: (
     <SideBarMenu
+      defaultActiveMenuItem={menuItemsDummy[0]}
       menuItems={menuItemsDummy}
       onSelect={(selectedItem: string) => console.log(selectedItem)}
     />
