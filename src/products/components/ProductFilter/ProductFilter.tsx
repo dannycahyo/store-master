@@ -58,7 +58,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
 
   return (
     <Stack
-      direction={{ base: "column", md: "row" }}
+      direction={{ base: "column", md: "column", lg: "row" }}
       spacing="12px"
       w="full"
       role="form"
