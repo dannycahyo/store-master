@@ -1,10 +1,12 @@
+import { cartsBaseURL } from "@src/constants";
+
 import type { Cart, CartRequestParams, CartRespose } from "./model";
 
 const getAllCarts = async ({
   limit,
   skip,
 }: CartRequestParams): Promise<CartRespose> => {
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/carts`);
+  const url = new URL(cartsBaseURL);
 
   if (skip !== undefined) {
     url.searchParams.set("skip", skip.toString());
@@ -29,9 +31,7 @@ const getAllCarts = async ({
 };
 
 const getCartDetail = async ({ cartId }: { cartId: string }): Promise<Cart> => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/carts/${cartId}`,
-  );
+  const response = await fetch(`${cartsBaseURL}/${cartId}`);
 
   if (!response.ok) {
     throw new Error("Network response was not ok");
