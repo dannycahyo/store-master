@@ -75,8 +75,6 @@ const successProductHandlers = [
     let productsList = products;
     let totalProducts = productsList.length;
 
-    console.log({ productsList });
-
     if (pMin && pMax) {
       productsList = applyPriceRange(productsList, Number(pMin), Number(pMax));
       totalProducts = productsList.length;

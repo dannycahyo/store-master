@@ -13,10 +13,10 @@ const getProducts = async ({
   q,
 }: ProductRequestParams): Promise<ProductResponseMapped> => {
   let baseURL = `${productBaseURL}`;
-  if (category !== undefined) {
+  if (category !== undefined && category !== "") {
     baseURL = `${productBaseURL}/category/${category}`;
   }
-  if (brand !== undefined) {
+  if (brand !== undefined && brand !== "") {
     baseURL = `${productBaseURL}/brand/${brand}`;
   }
   const url = new URL(`${baseURL}`);
