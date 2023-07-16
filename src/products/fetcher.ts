@@ -52,7 +52,6 @@ const getProducts = async ({
 };
 
 const getAllProductsCategories = async (): Promise<string[]> => {
-  console.log(`${productBaseURL}/categories`, "COKKO COK");
   const url = new URL(`${productBaseURL}/categories`);
 
   const response = await fetch(url);
