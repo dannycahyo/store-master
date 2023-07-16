@@ -22,7 +22,14 @@ const Container: React.FC<ContainerProps> = ({ sidebar, children }) => {
           {isBelowTabletSize ? null : (
             <GridItem colSpan={1}>{sidebar}</GridItem>
           )}
-          <GridItem colSpan={{ base: 5, md: 4 }}>{children}</GridItem>
+          <GridItem
+            colSpan={{ base: 5, md: 5, lg: 4 }}
+            pr={4}
+            pl={{ base: 4, lg: 0 }}
+            py={8}
+          >
+            {children}
+          </GridItem>
         </Grid>
       ) : (
         <ChakraContainer centerContent h="100vh" maxW="6xl">
