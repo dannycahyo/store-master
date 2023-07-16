@@ -2,7 +2,7 @@ import { Meta, StoryFn } from "@storybook/react";
 import { within } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
 
-import { productList } from "@src/constants";
+import { productListMapped } from "@src/constants";
 import { ProductTable } from "./ProductTable";
 
 export default {
@@ -16,7 +16,7 @@ const Template: StoryFn<typeof ProductTable> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  products: productList,
+  products: productListMapped,
 };
 
 Default.play = async ({ canvasElement, step }) => {
@@ -26,7 +26,7 @@ Default.play = async ({ canvasElement, step }) => {
   expect(productTable).toBeInTheDocument();
 
   const tableRows = canvas.getAllByRole("row");
-  expect(tableRows).toHaveLength(productList.length + 1);
+  expect(tableRows).toHaveLength(productListMapped.length + 1);
 
   const tableCaption = canvas.getByText("Product List");
   expect(tableCaption).toBeInTheDocument();
@@ -35,9 +35,9 @@ Default.play = async ({ canvasElement, step }) => {
   expect(tableHeaders).toHaveLength(5);
 
   const tableData = canvas.getAllByRole("cell");
-  expect(tableData).toHaveLength(productList.length * 5);
+  expect(tableData).toHaveLength(productListMapped.length * 5);
 
-  for (const product of productList) {
+  for (const product of productListMapped) {
     await step(`user see the ${product.title} product`, async () => {
       const productTitle = canvas.getByText(product.title);
       expect(productTitle).toBeInTheDocument();
