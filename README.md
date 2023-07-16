@@ -164,9 +164,9 @@ The application integrates with the [DummyJSON](https://dummyjson.com/) API to r
 
 ## Improvement Opportunities
 
-- **Web Accessibility**: The application could be improved by following the Web Content Accessibility Guidelines (WCAG). This could be immplented by handling and recognizing accessibility features such as color contrast, keyboard navigation, focus management, and screen reader support.
+- **Web Accessibility**: The application could be improved by following the Web Content Accessibility Guidelines (WCAG). This could be implemented by handling and recognizing accessibility features such as color contrast, keyboard navigation, focus management, and screen reader support.
 - **Performance Optimization**: Further performance improvements could be achieved by implementing code splitting, and web performance metrics like First Contentful Paint, Largest Contentful Paint, Total Blocking Time, and Speed Index could be improved.
 - **Internalization**: The application could be improved by adding internationalization support. This involves providing translations for UI text and formatting dates, numbers, and currencies based on the user's locale.
 - **Dark Mode**: Consider adding a dark mode to your application. This can make it more comfortable to use in low-light conditions and provide an alternative look and feel for users who prefer it.
-- **Error Boundary**: The application could be improved by adding an error boundary to catch and handle errors in the UI.
+- **Error Boundary**: The application is already stateful, which covers three main states (loading, success, error), and it would be better if the application could be improved by adding an error boundary to catch unexpected errors.
 - **Not Found Page**: The application could be improved by adding a custom 404 page.
