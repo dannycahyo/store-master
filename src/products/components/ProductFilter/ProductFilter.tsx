@@ -57,7 +57,12 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
   const isNotValidPriceRange = (priceRange.min ?? 0) >= (priceRange.max ?? 0);
 
   return (
-    <Stack direction={{ base: "column", md: "row" }} spacing="12px" w="full">
+    <Stack
+      direction={{ base: "column", md: "row" }}
+      spacing="12px"
+      w="full"
+      role="form"
+    >
       <Box w={{ base: "full", md: "30%" }}>
         <VStack align="flex-start" spacing="4">
           <Text>Category</Text>
