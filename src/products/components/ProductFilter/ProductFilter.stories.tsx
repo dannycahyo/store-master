@@ -15,22 +15,48 @@ export default {
 } as Meta<typeof ProductFilter>;
 
 const Template: StoryFn<typeof ProductFilter> = (args) => {
-  const [{ brands, categories }] = useArgs();
+  const [{ formValues, brands, categories }, updateArgs] = useArgs();
 
   const handleSearch = (search: string) => {
     action("onSearch")(search);
+    updateArgs({
+      formValues: {
+        ...formValues,
+        q: search,
+      },
+    });
   };
 
   const handleCategoryChange = (category: string) => {
     action("onCategoryChange")(category);
+    updateArgs({
+      formValues: {
+        ...formValues,
+        category,
+      },
+    });
   };
 
   const handleBrandChange = (brand: string) => {
     action("onBrandChange")(brand);
+    updateArgs({
+      formValues: {
+        ...formValues,
+        category: undefined,
+        brand,
+      },
+    });
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
     action("onPriceRangeChange")(min, max);
+    updateArgs({
+      formValues: {
+        ...formValues,
+        pMin: min,
+        pMax: max,
+      },
+    });
   };
 
   return (
@@ -38,6 +64,7 @@ const Template: StoryFn<typeof ProductFilter> = (args) => {
       {...args}
       brands={brands}
       categories={categories}
+      formValues={formValues}
       onSearch={handleSearch}
       onCategoryChange={handleCategoryChange}
       onBrandChange={handleBrandChange}
@@ -50,6 +77,13 @@ export const Default = Template.bind({});
 Default.args = {
   brands: brandDummies,
   categories: categoriesDummy,
+  formValues: {
+    category: "shoes",
+    brand: "Adidas",
+    pMin: undefined,
+    pMax: undefined,
+    q: undefined,
+  },
 };
 
 Default.play = async ({ canvasElement, step }) => {
@@ -80,24 +114,24 @@ Default.play = async ({ canvasElement, step }) => {
   });
   expect(applyPriceRangeButton).toBeDisabled();
 
-  const minInput = canvas.getByRole("spinbutton", {
+  const minInput = canvas.getByRole("textbox", {
     name: /Min Price/i,
   });
   expect(minInput).toBeInTheDocument();
 
   step("user input min price", () => {
     userEvent.type(minInput, "100");
-    expect(minInput).toHaveValue(100);
+    expect(minInput).toHaveValue("100");
   });
 
-  const maxInput = canvas.getByRole("spinbutton", {
+  const maxInput = canvas.getByRole("textbox", {
     name: /Max Price/i,
   });
   expect(maxInput).toBeInTheDocument();
 
   step("user input max price", () => {
     userEvent.type(maxInput, "1000");
-    expect(maxInput).toHaveValue(1000);
+    expect(maxInput).toHaveValue("1000");
   });
 
   step("user see the apply button not disabled", () => {

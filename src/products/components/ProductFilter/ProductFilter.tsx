@@ -17,10 +17,12 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 
 import type React from "react";
+import type { ProductRequestParams } from "@src/products/model";
 
 type ProducFilterProps = {
   brands: string[];
   categories: string[];
+  formValues: Omit<ProductRequestParams, "limit" | "skip" | "select">;
   onSearch: (search: string) => void;
   onCategoryChange: (category: string) => void;
   onBrandChange: (brand: string) => void;
@@ -30,20 +32,29 @@ type ProducFilterProps = {
 const ProductFilter: React.FC<ProducFilterProps> = ({
   brands,
   categories,
+  formValues,
   onSearch,
   onCategoryChange,
   onBrandChange,
   onPriceRangeChange,
 }) => {
+  const {
+    category: selectedCategory,
+    brand: selectedBrand,
+    pMin: minPrice,
+    pMax: maxPrice,
+    q: searchProductValue,
+  } = formValues;
+
   const [priceRange, setPriceRange] = useState<{
-    min: number;
-    max: number;
+    min?: number;
+    max?: number;
   }>({
-    min: 0,
-    max: 0,
+    min: minPrice,
+    max: maxPrice,
   });
 
-  const isNotValidPriceRange = priceRange.min >= priceRange.max;
+  const isNotValidPriceRange = (priceRange.min ?? 0) >= (priceRange.max ?? 0);
 
   return (
     <Stack direction={{ base: "column", md: "row" }} spacing="12px" w="full">
@@ -56,6 +67,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
             onChange={(e) => {
               onCategoryChange(e.target.value);
             }}
+            value={selectedCategory ?? ""}
           >
             {categories.map((category) => (
               <option key={category} value={category}>
@@ -74,6 +86,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
             onChange={(e) => {
               onBrandChange(e.target.value);
             }}
+            value={selectedBrand ?? ""}
           >
             {brands.map((brand) => (
               <option key={brand} value={brand}>
@@ -99,7 +112,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
                 if (isNotValidPriceRange) {
                   return;
                 }
-                onPriceRangeChange(priceRange.min, priceRange.max);
+                onPriceRangeChange(priceRange.min ?? 0, priceRange.max ?? 0);
               }}
             >
               Apply Price Range
@@ -109,9 +122,9 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
             <InputGroup>
               <InputLeftAddon>$</InputLeftAddon>
               <Input
-                type="number"
                 placeholder="Min"
                 aria-label="Min Price"
+                value={priceRange.min}
                 onChange={(e) => {
                   setPriceRange((prev) => ({
                     ...prev,
@@ -123,9 +136,9 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
             <InputGroup>
               <InputLeftAddon>$</InputLeftAddon>
               <Input
-                type="number"
                 placeholder="Max"
                 aria-label="Max Price"
+                value={priceRange.max}
                 onChange={(e) => {
                   setPriceRange((prev) => ({
                     ...prev,
@@ -150,6 +163,7 @@ const ProductFilter: React.FC<ProducFilterProps> = ({
             type="text"
             placeholder="Search product"
             aria-label="Search product"
+            value={searchProductValue}
             onChange={(e) => {
               onSearch(e.target.value);
             }}
