@@ -28,11 +28,23 @@ function productListWidgetReducer(state: State, action: Action): State {
     case "SET_PAGINATION":
       return { ...state, pagination: action.payload };
     case "SET_FILTER":
-      return { ...state, filter: action.payload };
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 1 },
+        filter: action.payload,
+      };
     case "SET_SEARCH":
-      return { ...state, search: action.payload };
+      return {
+        ...state,
+        pagination: { ...state.pagination },
+        search: action.payload,
+      };
     case "SET_PRICE_RANGE":
-      return { ...state, priceRange: action.payload };
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 1 },
+        priceRange: action.payload,
+      };
     default:
       return state;
   }

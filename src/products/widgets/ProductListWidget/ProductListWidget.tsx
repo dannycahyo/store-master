@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { match } from "ts-pattern";
-import { Skeleton } from "@chakra-ui/react";
+import { Box, Flex, Skeleton } from "@chakra-ui/react";
 
 import { ProductFilter, ProductTable } from "@src/products/components";
 import {
@@ -10,10 +10,12 @@ import {
   useGetProducts,
 } from "@src/products/services";
 import { GeneralError, Pagination, TableSkeleton } from "@src/uikits";
-import { getQuery, debounce } from "@src/utils";
+import { getQuery } from "@src/utils";
+import { useDebounce } from "@src/hooks";
 import { useProductListWidgetReducer } from "./ProductListWidget.reducer";
 
 import type React from "react";
+import type { ParsedUrlQuery } from "querystring";
 
 const ProductListWidget: React.FC = () => {
   const router = useRouter();
@@ -25,9 +27,15 @@ const ProductListWidget: React.FC = () => {
   const [minPrice, maxPrice] = state.priceRange;
   const searchProductValue = state.search;
 
-  const { data: categories } = useGetAllProductsCategories({
-    staleTime: Infinity,
-  });
+  const debouncedSearchProductValue = useDebounce<string>(
+    searchProductValue ?? "",
+    1000,
+  );
+
+  const { data: categories, status: categoriesStatus } =
+    useGetAllProductsCategories({
+      staleTime: Infinity,
+    });
   const { data: brands, status: brandsStatus } = useGetAllProductsBrands({
     staleTime: Infinity,
   });
@@ -38,7 +46,7 @@ const ProductListWidget: React.FC = () => {
     limit: pageSize,
     pMin: minPrice,
     pMax: maxPrice,
-    q: searchProductValue,
+    q: debouncedSearchProductValue,
     skip: (page - 1) * pageSize,
     select: "title,price,stock,brand,category",
   });
@@ -48,14 +56,19 @@ const ProductListWidget: React.FC = () => {
       type: "SET_FILTER",
       payload: { ...state.filter, brandName },
     });
+
+    const newQuery: Record<string, unknown> = {
+      ...router.query,
+      page: 1,
+      brand: brandName,
+    };
+
+    delete newQuery.category;
+
     router.push(
       {
         pathname: router.pathname,
-        query: {
-          ...router.query,
-          category: undefined,
-          brand: brandName,
-        },
+        query: newQuery as ParsedUrlQuery,
       },
       undefined,
       { shallow: true },
@@ -67,14 +80,19 @@ const ProductListWidget: React.FC = () => {
       type: "SET_FILTER",
       payload: { ...state.filter, categoryName },
     });
+
+    const newQuery: Record<string, unknown> = {
+      ...router.query,
+      page: 1,
+      category: categoryName,
+    };
+
+    delete newQuery.brand;
+
     router.push(
       {
         pathname: router.pathname,
-        query: {
-          ...router.query,
-          brand: undefined,
-          category: categoryName,
-        },
+        query: newQuery as ParsedUrlQuery,
       },
       undefined,
       { shallow: true },
@@ -91,6 +109,7 @@ const ProductListWidget: React.FC = () => {
         pathname: router.pathname,
         query: {
           ...router.query,
+          page: 1,
           pMin: minPrice,
           pMax: maxPrice,
         },
@@ -100,7 +119,7 @@ const ProductListWidget: React.FC = () => {
     );
   };
 
-  const onSearchProduct = debounce((searchValue: string) => {
+  const onSearchProduct = (searchValue: string) => {
     dispatch({
       type: "SET_SEARCH",
       payload: searchValue,
@@ -116,7 +135,7 @@ const ProductListWidget: React.FC = () => {
       undefined,
       { shallow: true },
     );
-  }, 3000);
+  };
 
   const onPaginationChange = (page: number, pageSize: number) => {
     dispatch({
@@ -149,17 +168,13 @@ const ProductListWidget: React.FC = () => {
       pageSize: pageSizeQuery,
     } = router.query;
 
-    if (brand !== undefined) {
+    if (brand !== undefined || category !== undefined) {
       dispatch({
         type: "SET_FILTER",
-        payload: { ...state.filter, brandName: String(brand) },
-      });
-    }
-
-    if (category !== undefined) {
-      dispatch({
-        type: "SET_FILTER",
-        payload: { ...state.filter, categoryName: String(category) },
+        payload: {
+          brandName: brand !== undefined ? String(brand) : undefined,
+          categoryName: category !== undefined ? String(category) : undefined,
+        },
       });
     }
 
@@ -181,18 +196,25 @@ const ProductListWidget: React.FC = () => {
         pageSize: Number(getQuery<number>(pageSizeQuery, 10)),
       },
     });
-  }, [dispatch, router.query, state.filter]);
+  }, [dispatch, router.query]);
 
   return (
     <>
-      {match([brandsStatus, productsStatus])
+      {match([brandsStatus, categoriesStatus])
         .with(["loading", "loading"], () => (
-          <Skeleton startColor="purple.500" endColor="blue.500" height="40px" />
+          <Skeleton startColor="purple.500" endColor="blue.500" height="80px" />
         ))
         .with(["success", "success"], () => (
           <ProductFilter
             brands={brands ?? []}
             categories={categories ?? []}
+            formValues={{
+              brand: brandName,
+              category: categoryName,
+              pMin: minPrice,
+              pMax: maxPrice,
+              q: searchProductValue,
+            }}
             onBrandChange={onBrandChange}
             onCategoryChange={onCategoryChange}
             onPriceRangeChange={onPriceRangeChange}
@@ -206,11 +228,16 @@ const ProductListWidget: React.FC = () => {
           />
         ))
         .otherwise(() => (
-          <Skeleton startColor="purple.500" endColor="blue.500" height="40px" />
+          <Skeleton startColor="purple.500" endColor="blue.500" height="80px" />
         ))}
       <>
         {match(productsStatus)
-          .with("loading", () => <TableSkeleton />)
+          .with("loading", () => (
+            <Box mt={8}>
+              <TableSkeleton />
+              <TableSkeleton />
+            </Box>
+          ))
           .with("error", () => (
             <GeneralError
               title="Products Error!"
@@ -218,16 +245,18 @@ const ProductListWidget: React.FC = () => {
             />
           ))
           .with("success", () => (
-            <ProductTable products={products?.products ?? []} />
+            <Flex flexDir="column" gap={4} mt={8}>
+              <ProductTable products={products?.products ?? []} />
+              <Pagination
+                currentPage={page}
+                pageSize={pageSize}
+                onChange={onPaginationChange}
+                total={products?.total ?? 0}
+              />
+            </Flex>
           ))
           .exhaustive()}
       </>
-      <Pagination
-        currentPage={page}
-        pageSize={pageSize}
-        onChange={onPaginationChange}
-        total={products?.total ?? 0}
-      />
     </>
   );
 };
