@@ -19,8 +19,8 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
   const { brand, category, pMin, pMax, q, page, pageSize } = query;
   const brandQuery = getQuery(brand, null);
   const categoryQuery = getQuery(category, null);
-  const pMinQuery = getQuery(pMin, null);
-  const pMaxQuery = getQuery(pMax, null);
+  const pMinQuery = getQuery(pMin, 0);
+  const pMaxQuery = getQuery(pMax, 0);
   const qQuery = getQuery(q, null);
   const pageQuery = getQuery(page, 1);
   const pageSizeQuery = getQuery(pageSize, 10);
@@ -43,11 +43,11 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
     ],
     () =>
       getProducts({
-        brand: brandQuery,
-        category: categoryQuery,
+        brand: brandQuery as string,
+        category: categoryQuery as string,
         pMin: Number(pMinQuery),
         pMax: Number(pMaxQuery),
-        q: qQuery,
+        q: qQuery as string,
         skip: Number(pageQuery),
         limit: Number(pageSizeQuery),
       }),

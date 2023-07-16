@@ -36,14 +36,14 @@ type ProductResponseMapped = {
 };
 
 type ProductRequestParams = {
-  limit?: number | null;
-  skip?: number | null;
-  pMin?: number | null;
-  pMax?: number | null;
-  select?: string | null;
-  category?: string | null;
-  brand?: string | null;
-  q?: string | null;
+  limit?: number;
+  skip?: number;
+  pMin?: number;
+  pMax?: number;
+  select?: string;
+  category?: string;
+  brand?: string;
+  q?: string;
 };
 
 export type {
