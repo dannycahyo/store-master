@@ -46,6 +46,7 @@ export default async function handler(
 
   products = applyPagination(products, Number(skip), Number(limit));
 
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.status(200).json({
     products: products,
     total: totalProducts,
