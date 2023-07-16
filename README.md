@@ -29,7 +29,7 @@ StoreMaster is an ecommerce dashboard. It provides an intuitive and user-friendl
 A live demo of the StoreMaster application is available at:
 
 - Application: [https://storemaster.vercel.app/](https://storemaster.vercel.app/)
-- Storybook: [https://storemasterstory.vercel.app/](https://storemasterstory.vercel.app/)
+- Storybook: [https://storemaster-story.vercel.app/](https://storemaster-story.vercel.app/)
 
 ## Installation
 
