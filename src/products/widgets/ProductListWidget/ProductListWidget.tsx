@@ -239,10 +239,12 @@ const ProductListWidget: React.FC = () => {
             </Box>
           ))
           .with("error", () => (
-            <GeneralError
-              title="Products Error!"
-              description="There was something wrong when fetching get all products."
-            />
+            <Box mt={8}>
+              <GeneralError
+                title="Products Error!"
+                description="There was something wrong when fetching get all products."
+              />
+            </Box>
           ))
           .with("success", () => (
             <Flex flexDir="column" gap={4} mt={8}>
