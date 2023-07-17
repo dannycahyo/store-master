@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { VStack, Flex, Box } from "@chakra-ui/react";
+import { VStack, Flex, Box, Heading, Divider } from "@chakra-ui/react";
 import { match } from "ts-pattern";
 
 import { useGetAllCarts } from "@src/carts/services";
@@ -68,6 +68,15 @@ const CartListWidget: React.FC = () => {
         .with("success", () => (
           <VStack spacing={10}>
             <Box w="full">
+              <Heading size="md" mb={4} fontWeight="semibold">
+                Cart List
+              </Heading>
+              <Divider
+                width={{ base: "30%", md: "15%", xl: "10%" }}
+                mb={4}
+                borderWidth="2px"
+                borderColor="purple.200"
+              />
               <CartTable carts={cartData?.carts ?? []} />
             </Box>
             <Flex alignSelf={{ base: "center", md: "flex-end" }}>
