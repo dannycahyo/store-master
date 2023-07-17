@@ -70,7 +70,7 @@ const CartListWidget: React.FC = () => {
             <Box w="full">
               <CartTable carts={cartData?.carts ?? []} />
             </Box>
-            <Flex alignSelf="flex-end">
+            <Flex alignSelf={{ base: "center", md: "flex-end" }}>
               <Pagination
                 currentPage={page}
                 onChange={handlePaginationChange}
