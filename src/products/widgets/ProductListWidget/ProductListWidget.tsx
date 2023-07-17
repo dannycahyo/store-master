@@ -1,7 +1,14 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { match } from "ts-pattern";
-import { Box, Flex, Heading, Skeleton, Container } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Skeleton,
+  Container,
+  Divider,
+} from "@chakra-ui/react";
 
 import { ProductFilter, ProductTable } from "@src/products/components";
 import {
@@ -229,6 +236,15 @@ const ProductListWidget: React.FC = () => {
 
   return (
     <>
+      <Heading size="md" mb={4} fontWeight="semibold">
+        Product List
+      </Heading>
+      <Divider
+        width={{ base: "30%", md: "15%", xl: "10%" }}
+        mb={4}
+        borderWidth="2px"
+        borderColor="purple.200"
+      />
       {match([brandsStatus, categoriesStatus])
         .with(["loading", "loading"], () => (
           <Skeleton startColor="purple.500" endColor="blue.500" height="80px" />
