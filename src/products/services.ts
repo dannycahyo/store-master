@@ -14,8 +14,28 @@ function useGetProducts(
   options?: UseQueryOptions<ProductResponseMapped>,
 ) {
   return useQuery<ProductResponseMapped>({
-    queryKey: ["products", { ...params }],
-    queryFn: () => getProducts({ ...params }),
+    queryKey: [
+      "products",
+      {
+        brand: params?.brand ?? "",
+        category: params?.category ?? "",
+        pMin: params?.pMin ?? 0,
+        pMax: params?.pMax ?? 0,
+        q: params?.q ?? "",
+        skip: params?.skip ?? 0,
+        limit: params?.limit ?? 10,
+      },
+    ],
+    queryFn: () =>
+      getProducts({
+        brand: params?.brand ?? "",
+        category: params?.category ?? "",
+        pMin: params?.pMin ?? 0,
+        pMax: params?.pMax ?? 0,
+        q: params?.q ?? "",
+        skip: params?.skip ?? 0,
+        limit: params?.limit ?? 10,
+      }),
     ...options,
   });
 }

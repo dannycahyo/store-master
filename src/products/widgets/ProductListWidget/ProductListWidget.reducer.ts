@@ -50,13 +50,8 @@ function productListWidgetReducer(state: State, action: Action): State {
   }
 }
 
-function useProductListWidgetReducer() {
-  const [state, dispatch] = useReducer(productListWidgetReducer, {
-    pagination: { page: 1, pageSize: 10 },
-    filter: { categoryName: undefined, brandName: undefined },
-    search: undefined,
-    priceRange: [undefined, undefined],
-  });
+function useProductListWidgetReducer(defaultState: State) {
+  const [state, dispatch] = useReducer(productListWidgetReducer, defaultState);
 
   return { state, dispatch };
 }
