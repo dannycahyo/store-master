@@ -53,14 +53,18 @@ const successProductsByCategoryAndBrandHandler = [
       });
     }
 
-    productsList = applyPagination(productsList, Number(skip), Number(limit));
+    productsList = applyPagination(
+      productsList,
+      Number(skip ?? 0),
+      Number(limit),
+    );
 
     return res(
       ctx.status(200),
       ctx.json<ProductsResponse>({
         products: productsList,
         total: totalProducts,
-        skip: Number(skip),
+        skip: Number(skip ?? 0),
         limit: Number(limit),
       }),
     );
@@ -95,14 +99,18 @@ const successProductHandlers = [
       });
     }
 
-    productsList = applyPagination(productsList, Number(skip), Number(limit));
+    productsList = applyPagination(
+      productsList,
+      Number(skip ?? 0),
+      Number(limit),
+    );
 
     return res(
       ctx.status(200),
       ctx.json<ProductsResponse>({
         products: productsList,
         total: totalProducts,
-        skip: Number(skip),
+        skip: Number(skip ?? 0),
         limit: Number(limit),
       }),
     );
