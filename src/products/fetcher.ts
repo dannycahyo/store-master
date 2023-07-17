@@ -32,7 +32,7 @@ const getProducts = async ({
 
   for (const param in parameters) {
     const value = parameters[param as keyof typeof parameters];
-    if (value !== undefined) {
+    if (value !== undefined && value !== 0) {
       url.searchParams.set(param, String(value));
     }
   }

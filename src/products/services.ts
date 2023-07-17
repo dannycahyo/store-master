@@ -22,11 +22,20 @@ function useGetProducts(
         pMin: params?.pMin ?? 0,
         pMax: params?.pMax ?? 0,
         q: params?.q ?? "",
-        skip: params?.skip ?? 1,
+        skip: params?.skip ?? 0,
         limit: params?.limit ?? 10,
       },
     ],
-    queryFn: () => getProducts({ ...params }),
+    queryFn: () =>
+      getProducts({
+        brand: params?.brand ?? "",
+        category: params?.category ?? "",
+        pMin: params?.pMin ?? 0,
+        pMax: params?.pMax ?? 0,
+        q: params?.q ?? "",
+        skip: params?.skip ?? 0,
+        limit: params?.limit ?? 10,
+      }),
     ...options,
   });
 }

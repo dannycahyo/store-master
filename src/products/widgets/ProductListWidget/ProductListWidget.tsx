@@ -20,7 +20,36 @@ import type { ParsedUrlQuery } from "querystring";
 const ProductListWidget: React.FC = () => {
   const router = useRouter();
 
-  const { state, dispatch } = useProductListWidgetReducer();
+  const {
+    brand: brandQuery,
+    category: categoryQuery,
+    pMin: pMinQuery,
+    pMax: pMaxQuery,
+    page: pageQuery,
+    q: qQuery,
+    pageSize: pageSizeQuery,
+  } = router.query;
+
+  const brandQueryValue = getQuery<string>(brandQuery, "");
+  const categoryQueryValue = getQuery<string>(categoryQuery, "");
+  const pMinQueryValue = Number(getQuery<number>(pMinQuery, 0));
+  const pMaxQueryValue = Number(getQuery<number>(pMaxQuery, 0));
+  const qQueryValue = getQuery<string>(qQuery, "");
+  const pageQueryValue = Number(getQuery<number>(pageQuery, 1));
+  const pageSizeQueryValue = Number(getQuery<number>(pageSizeQuery, 10));
+
+  const { state, dispatch } = useProductListWidgetReducer({
+    pagination: {
+      page: pageQueryValue,
+      pageSize: pageSizeQueryValue,
+    },
+    filter: {
+      brandName: brandQueryValue,
+      categoryName: categoryQueryValue,
+    },
+    search: qQueryValue,
+    priceRange: [pMinQueryValue, pMaxQueryValue],
+  });
 
   const { page, pageSize } = state.pagination;
   const { brandName, categoryName } = state.filter;
@@ -211,8 +240,8 @@ const ProductListWidget: React.FC = () => {
             formValues={{
               brand: brandName,
               category: categoryName,
-              pMin: minPrice,
-              pMax: maxPrice,
+              pMin: minPrice === 0 ? undefined : minPrice,
+              pMax: maxPrice === 0 ? undefined : maxPrice,
               q: searchProductValue,
             }}
             onBrandChange={onBrandChange}

@@ -17,39 +17,42 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
   const queryClient = new QueryClient();
 
   const { brand, category, pMin, pMax, q, page, pageSize } = query;
-  const brandQuery = getQuery(brand, "");
-  const categoryQuery = getQuery(category, "");
-  const pMinQuery = getQuery(pMin, 0);
-  const pMaxQuery = getQuery(pMax, 0);
-  const qQuery = getQuery(q, "");
-  const pageQuery = getQuery(page, 1);
-  const pageSizeQuery = getQuery(pageSize, 10);
+  const brandQueryValue = getQuery<string>(brand, "");
+  const categoryQueryValue = getQuery<string>(category, "");
+  const pMinQueryValue = getQuery<number>(pMin, 0);
+  const pMaxQueryValue = getQuery<number>(pMax, 0);
+  const qQueryValue = getQuery<string>(q, "");
+  const pageQueryValue = getQuery<number>(page, 1);
+  const pageSizeQueryValue = getQuery<number>(pageSize, 10);
 
-  await queryClient.prefetchQuery(["brands"], getAllProductsBrands);
-  await queryClient.prefetchQuery(["categories"], getAllProductsCategories);
+  await queryClient.prefetchQuery(["productsBrands"], getAllProductsBrands);
+  await queryClient.prefetchQuery(
+    ["productsCategories"],
+    getAllProductsCategories,
+  );
 
   await queryClient.prefetchQuery(
     [
       "products",
       {
-        brand: brandQuery,
-        category: categoryQuery,
-        pMin: Number(pMinQuery),
-        pMax: Number(pMaxQuery),
-        q: qQuery,
-        skip: Number(pageQuery),
-        limit: Number(pageSizeQuery),
+        brand: brandQueryValue,
+        category: categoryQueryValue,
+        pMin: Number(pMinQueryValue),
+        pMax: Number(pMaxQueryValue),
+        q: qQueryValue,
+        skip: (Number(pageQueryValue) - 1) * Number(pageSizeQueryValue),
+        limit: Number(pageSizeQueryValue),
       },
     ],
     () =>
       getProducts({
-        brand: brandQuery,
-        category: categoryQuery,
-        pMin: Number(pMinQuery),
-        pMax: Number(pMaxQuery),
-        q: qQuery as string,
-        skip: Number(pageQuery),
-        limit: Number(pageSizeQuery),
+        brand: brandQueryValue,
+        category: categoryQueryValue,
+        pMin: Number(pMinQueryValue),
+        pMax: Number(pMaxQueryValue),
+        q: qQueryValue,
+        skip: (Number(pageQueryValue) - 1) * Number(pageSizeQueryValue),
+        limit: Number(pageSizeQueryValue),
       }),
   );
 
