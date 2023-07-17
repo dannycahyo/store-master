@@ -4,3 +4,4 @@ export * from "./Pagination";
 export * from "./TableSkeleton";
 export * from "./GeneralError";
 export * from "./CardSkeleton";
+export * from "./PieChart";

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { match } from "ts-pattern";
-import { Box, Flex, Skeleton } from "@chakra-ui/react";
+import { Box, Flex, Heading, Skeleton, Container } from "@chakra-ui/react";
 
 import { ProductFilter, ProductTable } from "@src/products/components";
 import {
@@ -9,7 +9,7 @@ import {
   useGetAllProductsCategories,
   useGetProducts,
 } from "@src/products/services";
-import { GeneralError, Pagination, TableSkeleton } from "@src/uikits";
+import { GeneralError, Pagination, PieChart, TableSkeleton } from "@src/uikits";
 import { getQuery } from "@src/utils";
 import { useDebounce } from "@src/hooks";
 import { useProductListWidgetReducer } from "./ProductListWidget.reducer";
@@ -255,6 +255,21 @@ const ProductListWidget: React.FC = () => {
                 onChange={onPaginationChange}
                 total={products?.total ?? 0}
               />
+              <Container maxW="xl" mt="8">
+                <Box>
+                  <Heading size="md" textAlign="center" mb="4">
+                    Products Chart
+                  </Heading>
+                  <PieChart
+                    data={
+                      products?.products.map((product) => ({
+                        label: product.title,
+                        total: product.stock,
+                      })) ?? []
+                    }
+                  />
+                </Box>
+              </Container>
             </Flex>
           ))
           .exhaustive()}

@@ -1,9 +1,14 @@
-import { Box, Heading, VStack } from "@chakra-ui/react";
+import { Box, Container, Heading, VStack } from "@chakra-ui/react";
 import { match } from "ts-pattern";
 
 import { useGetCartDetail } from "@src/carts/services";
 import { CartCard, CartProductTable } from "@src/carts/components";
-import { CardSkeleton, GeneralError, TableSkeleton } from "@src/uikits";
+import {
+  CardSkeleton,
+  GeneralError,
+  PieChart,
+  TableSkeleton,
+} from "@src/uikits";
 
 import type React from "react";
 import type { Cart } from "@src/carts/model";
@@ -51,6 +56,19 @@ const CartDetailWidget: React.FC<CartDetailWidgetProps> = ({ cartId }) => {
             <Box mt="8">
               <CartProductTable products={cartDetail.products} />
             </Box>
+            <Container maxW="xl" mt="8">
+              <Box>
+                <Heading size="md" textAlign="center" mb="4">
+                  Products Chart
+                </Heading>
+                <PieChart
+                  data={cartDetail.products.map((product) => ({
+                    label: product.title,
+                    total: product.quantity,
+                  }))}
+                />
+              </Box>
+            </Container>
           </Box>
         ))
         .exhaustive()}
