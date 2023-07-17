@@ -68,11 +68,27 @@ npm run build
 npm run start
 ```
 
+Here are some command to run, build, and serve the storybook project:
+
+Note\* please run the development server of the next js as well to get the API data.
+
+```bash
+# run storybook
+npm run storybook
+
+# build storybook
+npm run build-storybook
+
+```
+
 ## Testing
 
 The application includes a comprehensive interaction and integration test suite to ensure its functionality and stability. To run the tests, use the following command:
 
+Note\* please run the storybook server too.
+
 ```bash
+# run test
 npm run test-storybook
 
 # add --coverage flag to generate coverage report
